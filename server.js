@@ -122,11 +122,6 @@ const skills = {
 
 // Routes
 
-// Serve main page
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
-});
-
 // API Routes
 
 // Get all projects
@@ -318,6 +313,11 @@ app.use('/api/*', (req, res) => {
         success: false,
         message: 'API endpoint not found'
     });
+});
+
+// Serve main page
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 // Serve static files for any other routes (SPA support)
