@@ -1000,6 +1000,188 @@ section {
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script>
+        // Portfolio Website JavaScript - Embedded
+        
+        // Sample project data
+        const projects = [
+            {
+                id: 1,
+                title: "E-Commerce Platform",
+                description: "A full-stack e-commerce application built with React, Node.js, and MongoDB. Features include user authentication, product catalog, shopping cart, and payment integration.",
+                technologies: ["React", "Node.js", "MongoDB", "Express", "Stripe"],
+                image: "🛒",
+                liveUrl: "#",
+                githubUrl: "https://github.com/Aly778"
+            },
+            {
+                id: 2,
+                title: "Task Management App",
+                description: "A collaborative task management application with real-time updates, drag-and-drop functionality, and team collaboration features.",
+                technologies: ["React", "Socket.io", "Node.js", "PostgreSQL", "Redux"],
+                image: "📋",
+                liveUrl: "#",
+                githubUrl: "https://github.com/Aly778"
+            },
+            {
+                id: 3,
+                title: "Weather Dashboard",
+                description: "A responsive weather dashboard that displays current weather conditions and forecasts for multiple cities with interactive charts and maps.",
+                technologies: ["JavaScript", "API Integration", "Chart.js", "CSS3", "HTML5"],
+                image: "🌤️",
+                liveUrl: "#",
+                githubUrl: "https://github.com/Aly778"
+            },
+            {
+                id: 4,
+                title: "Blog Platform",
+                description: "A modern blog platform with markdown support, comment system, and admin dashboard for content management.",
+                technologies: ["Next.js", "TypeScript", "Prisma", "PostgreSQL", "Tailwind CSS"],
+                image: "📝",
+                liveUrl: "#",
+                githubUrl: "https://github.com/Aly778"
+            },
+            {
+                id: 5,
+                title: "Social Media Analytics",
+                description: "A data visualization tool for social media analytics with interactive dashboards and real-time data processing.",
+                technologies: ["Python", "Django", "D3.js", "Redis", "Celery"],
+                image: "📊",
+                liveUrl: "#",
+                githubUrl: "https://github.com/Aly778"
+            },
+            {
+                id: 6,
+                title: "Mobile Banking App",
+                description: "A secure mobile banking application with biometric authentication, transaction history, and money transfer capabilities.",
+                technologies: ["React Native", "Node.js", "MongoDB", "JWT", "Stripe"],
+                image: "🏦",
+                liveUrl: "#",
+                githubUrl: "https://github.com/Aly778"
+            }
+        ];
+
+        // DOM Elements
+        const projectsGrid = document.getElementById('projects-grid');
+        const contactForm = document.getElementById('contact-form');
+
+        // Render projects
+        function renderProjects() {
+            console.log('renderProjects called');
+            console.log('projectsGrid:', projectsGrid);
+            
+            if (!projectsGrid) {
+                console.log('No projects grid found!');
+                return;
+            }
+
+            projectsGrid.innerHTML = projects.map(project => `
+                <div class="project-card fade-in">
+                    <div class="project-image">
+                        <span style="font-size: 4rem;">${project.image}</span>
+                    </div>
+                    <div class="project-content">
+                        <h3 class="project-title">${project.title}</h3>
+                        <p class="project-description">${project.description}</p>
+                        <div class="project-tech">
+                            ${project.technologies.map(tech => `<span class="tech-tag">${tech}</span>`).join('')}
+                        </div>
+                        <div class="project-links">
+                            <a href="${project.liveUrl}" class="project-link" target="_blank" rel="noopener noreferrer">
+                                <i class="fas fa-external-link-alt"></i>
+                                Live Demo
+                            </a>
+                            <a href="${project.githubUrl}" class="project-link secondary" target="_blank" rel="noopener noreferrer">
+                                <i class="fab fa-github"></i>
+                                GitHub
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            
+            console.log('Projects rendered successfully');
+        }
+
+        // Initialize typing animation when page loads
+        function initTypingAnimation() {
+            console.log('initTypingAnimation called');
+            const heroTitle = document.querySelector('.hero-title');
+            console.log('heroTitle element:', heroTitle);
+            
+            if (heroTitle) {
+                const codeLines = [
+                    'const developer = {',
+                    '  name: "Aly Radwan",',
+                    '  role: "Software Engineering Student",',
+                    '  passion: "Creating innovative solutions"',
+                    '};'
+                ];
+                
+                heroTitle.innerHTML = '';
+                
+                let currentLine = 0;
+                let currentChar = 0;
+                
+                function typeCode() {
+                    if (currentLine < codeLines.length) {
+                        const line = codeLines[currentLine];
+                        if (currentChar < line.length) {
+                            heroTitle.innerHTML += line.charAt(currentChar);
+                            currentChar++;
+                            setTimeout(typeCode, 80);
+                        } else {
+                            heroTitle.innerHTML += '<br>';
+                            currentLine++;
+                            currentChar = 0;
+                            setTimeout(typeCode, 200);
+                        }
+                    }
+                }
+                
+                setTimeout(() => {
+                    typeCode();
+                }, 1000);
+            }
+        }
+
+        // Contact form handling
+        function handleContactForm(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(contactForm);
+            const data = {
+                name: formData.get('name'),
+                email: formData.get('email'),
+                subject: formData.get('subject'),
+                message: formData.get('message')
+            };
+            
+            // Show success message
+            alert('Message sent successfully! I\'ll get back to you soon.');
+            
+            // Reset form
+            contactForm.reset();
+        }
+
+        // Initialize all functionality when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('DOM loaded, initializing...');
+            
+            // Debug: Check if elements exist
+            console.log('Projects grid:', document.getElementById('projects-grid'));
+            console.log('Hero title:', document.querySelector('.hero-title'));
+            
+            renderProjects();
+            initTypingAnimation();
+            
+            // Contact form event listener
+            if (contactForm) {
+                contactForm.addEventListener('submit', handleContactForm);
+            }
+            
+            console.log('Initialization complete');
+        });
+    </script>
 </body>
 </html>
