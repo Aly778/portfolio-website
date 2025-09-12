@@ -148,10 +148,26 @@ body {
 }
 
 .hero-title {
-    font-size: 3.5rem;
-    font-weight: 700;
+    font-size: 2.2rem;
+    font-weight: 500;
     margin-bottom: 1rem;
-    line-height: 1.2;
+    line-height: 1.4;
+    font-family: 'Courier New', monospace;
+    color: #e2e8f0;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    position: relative;
+}
+
+.hero-title::after {
+    content: '|';
+    animation: blink 1s infinite;
+    color: #fbbf24;
+    font-weight: bold;
+}
+
+@keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
 }
 
 .highlight {
@@ -783,7 +799,7 @@ section {
         <div class="hero-container">
             <div class="hero-content">
                 <h1 class="hero-title">
-                    Hi, I'm <span class="highlight">Aly Radwan</span>
+                    <!-- Code will be typed dynamically -->
                 </h1>
                 <h2 class="hero-subtitle">Software Engineering Student</h2>
                 <p class="hero-description">

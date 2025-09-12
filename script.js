@@ -338,9 +338,37 @@ function typeWriter(element, text, speed = 100) {
 function initTypingAnimation() {
     const heroTitle = document.querySelector('.hero-title');
     if (heroTitle) {
-        const originalText = heroTitle.innerHTML;
+        const codeLines = [
+            'const developer = {',
+            '  name: "Aly Radwan",',
+            '  role: "Software Engineering Student",',
+            '  passion: "Creating innovative solutions"',
+            '};'
+        ];
+        
+        heroTitle.innerHTML = '';
+        
+        let currentLine = 0;
+        let currentChar = 0;
+        
+        function typeCode() {
+            if (currentLine < codeLines.length) {
+                const line = codeLines[currentLine];
+                if (currentChar < line.length) {
+                    heroTitle.innerHTML += line.charAt(currentChar);
+                    currentChar++;
+                    setTimeout(typeCode, 80);
+                } else {
+                    heroTitle.innerHTML += '<br>';
+                    currentLine++;
+                    currentChar = 0;
+                    setTimeout(typeCode, 200);
+                }
+            }
+        }
+        
         setTimeout(() => {
-            typeWriter(heroTitle, originalText, 50);
+            typeCode();
         }, 1000);
     }
 }
