@@ -136,7 +136,14 @@ window.addEventListener('scroll', updateActiveNavLink);
 
 // Render projects
 function renderProjects() {
-    if (!projectsGrid) return;
+    console.log('renderProjects called');
+    console.log('projectsGrid:', projectsGrid);
+    console.log('projects array:', projects);
+    
+    if (!projectsGrid) {
+        console.log('No projects grid found!');
+        return;
+    }
 
     projectsGrid.innerHTML = projects.map(project => `
         <div class="project-card fade-in">
@@ -336,7 +343,10 @@ function typeWriter(element, text, speed = 100) {
 
 // Initialize typing animation when page loads
 function initTypingAnimation() {
+    console.log('initTypingAnimation called');
     const heroTitle = document.querySelector('.hero-title');
+    console.log('heroTitle element:', heroTitle);
+    
     if (heroTitle) {
         const codeLines = [
             'const developer = {',
@@ -419,6 +429,12 @@ function initParallaxEffect() {
 
 // Initialize all functionality when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOM loaded, initializing...');
+    
+    // Debug: Check if elements exist
+    console.log('Projects grid:', document.getElementById('projects-grid'));
+    console.log('Hero title:', document.querySelector('.hero-title'));
+    
     renderProjects();
     initTypingAnimation();
     initSkillHoverEffects();
@@ -435,6 +451,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (navLinks.length > 0) {
         navLinks[0].classList.add('active');
     }
+    
+    console.log('Initialization complete');
 });
 
 // Handle window resize
