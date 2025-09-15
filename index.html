@@ -1270,6 +1270,18 @@ section {
             }
         }
 
+        // Reveal fade-in elements on load and scroll
+        function revealOnScroll() {
+            const elements = document.querySelectorAll('.fade-in');
+            const threshold = 150;
+            elements.forEach(el => {
+                const top = el.getBoundingClientRect().top;
+                if (top < window.innerHeight - threshold) {
+                    el.classList.add('visible');
+                }
+            });
+        }
+
         // Contact form handling
         function handleContactForm(e) {
             e.preventDefault();
@@ -1298,6 +1310,7 @@ section {
             console.log('Hero title:', document.querySelector('.hero-title'));
             
             initTypingAnimation();
+            revealOnScroll();
             
             // Contact form event listener
             if (contactForm) {
@@ -1306,6 +1319,10 @@ section {
             
             console.log('Initialization complete');
         });
+
+        // Apply reveal on scroll/resize
+        window.addEventListener('scroll', revealOnScroll);
+        window.addEventListener('resize', revealOnScroll);
     </script>
 </body>
 </html>
