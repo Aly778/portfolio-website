@@ -1226,7 +1226,69 @@ section {
         const projectsGrid = document.getElementById('projects-grid');
         const contactForm = document.getElementById('contact-form');
 
-        // Projects are now hardcoded in HTML - no need for dynamic rendering
+        // -------- GitHub Projects Auto-Loader --------
+        const GITHUB_USERNAME = 'Aly778';
+
+        function languageEmoji(language) {
+            if (!language) return '💻';
+            const map = { JavaScript:'🟨', TypeScript:'🟦', Python:'🐍', Java:'☕️', HTML:'🟥', CSS:'🟪', C:'🔵', 'C++':'🧩', Go:'🐹', Rust:'🦀', Shell:'🐚', PHP:'🐘', Ruby:'💎', Kotlin:'🟣', Swift:'🟠' };
+            return map[language] || '💻';
+        }
+
+        async function fetchRepoLanguages(languagesUrl) {
+            try {
+                const res = await fetch(languagesUrl);
+                if (!res.ok) return [];
+                const data = await res.json();
+                return Object.keys(data).slice(0, 5);
+            } catch (_) { return []; }
+        }
+
+        async function fetchAndRenderGitHubProjects(username, max = 6) {
+            try {
+                if (!projectsGrid) return;
+                projectsGrid.innerHTML = '<p style="text-align:center;color:#6b7280;">Loading projects from GitHub…</p>';
+
+                const res = await fetch(`https://api.github.com/users/${username}/repos?per_page=100&sort=updated`);
+                if (!res.ok) throw new Error('GitHub API error');
+                const repos = await res.json();
+
+                const filtered = repos
+                    .filter(r => !r.fork && !r.archived && !r.private)
+                    .sort((a,b) => (b.stargazers_count - a.stargazers_count) || (new Date(b.updated_at) - new Date(a.updated_at)))
+                    .slice(0, max);
+
+                const withLangs = await Promise.all(filtered.map(async r => ({
+                    name: r.name,
+                    description: r.description || 'Project description coming soon.',
+                    homepage: (r.homepage && r.homepage.trim()) ? r.homepage : r.html_url,
+                    html_url: r.html_url,
+                    language: r.language,
+                    languages: await fetchRepoLanguages(r.languages_url)
+                })));
+
+                projectsGrid.innerHTML = withLangs.map(p => `
+                    <div class=\"project-card fade-in\">
+                        <div class=\"project-image\">
+                            <span style=\"font-size: 3rem;\">${languageEmoji(p.language)}</span>
+                        </div>
+                        <div class=\"project-content\">
+                            <h3 class=\"project-title\">${p.name}</h3>
+                            <p class=\"project-description\">${p.description}</p>
+                            <div class=\"project-tech\">${p.languages.map(t => `<span class=\\\"tech-tag\\\">${t}</span>`).join('')}</div>
+                            <div class=\"project-links\">
+                                <a href=\"${p.homepage}\" class=\"project-link\" target=\"_blank\" rel=\"noopener noreferrer\"><i class=\"fas fa-external-link-alt\"></i> Live / Homepage</a>
+                                <a href=\"${p.html_url}\" class=\"project-link secondary\" target=\"_blank\" rel=\"noopener noreferrer\"><i class=\"fab fa-github\"></i> GitHub</a>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+
+                revealOnScroll();
+            } catch (e) {
+                projectsGrid.innerHTML = '<p style="text-align:center;color:#ef4444;">Failed to load GitHub projects.</p>';
+            }
+        }
 
         // Initialize typing animation when page loads
         function initTypingAnimation() {
@@ -1310,6 +1372,8 @@ section {
             console.log('Hero title:', document.querySelector('.hero-title'));
             
             initTypingAnimation();
+            // Replace placeholder cards with real GitHub projects
+            fetchAndRenderGitHubProjects(GITHUB_USERNAME, 6);
             revealOnScroll();
             
             // Contact form event listener
