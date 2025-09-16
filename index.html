@@ -1322,8 +1322,22 @@ section {
                 message: formData.get('message')
             };
             
+            // Create mailto link with form data
+            const emailBody = `Hi Aly,
+
+${data.message}
+
+Best regards,
+${data.name}
+${data.email}`;
+
+            const mailtoLink = `mailto:alymalfateh@gmail.com?subject=${encodeURIComponent(data.subject)}&body=${encodeURIComponent(emailBody)}`;
+            
+            // Open email client
+            window.location.href = mailtoLink;
+            
             // Show success message
-            alert('Message sent successfully! I\'ll get back to you soon.');
+            alert('Your email client will open with a pre-filled message. Please send the email to complete the contact process.');
             
             // Reset form
             contactForm.reset();
